@@ -19,3 +19,11 @@ Thumbs.db
 .idea/
 .vscode/
 node_modules/
+
+# Agent & Hackathon files
+.playwright-mcp/
+.claude/
+CLAUDE.md
+implementation_plan.md
+task.md
+walkthrough.md

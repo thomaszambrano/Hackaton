@@ -83,13 +83,29 @@ pqrds-medellin/
 
 ---
 
-## Stack tecnológico
+## 🚀 Presentación del Proyecto
 
-- React 19, TypeScript, Vite, Tailwind CSS  
-- Django 4.2, Django REST Framework  
-- PostgreSQL 15  
-- Docker Compose  
-- IA para clasificación y asistencia  
+Puedes ver la presentación detallada de nuestra solución en Canva:
+[👉 Presentación PQRSD Medellín - OmegaHack 2026](https://canva.link/pd0qni82uhq4uq1)
+
+---
+
+## 🛠️ Stack Tecnológico y Despliegue
+
+Nuestra arquitectura está diseñada para ser escalable, segura y eficiente, utilizando un modelo de despliegue híbrido:
+
+### **Frontend**
+*   **Vercel:** Plataforma de despliegue optimizada para frontend que garantiza alta disponibilidad, carga instantánea y seguridad HTTPS automática.
+*   **Tecnologías:** React 19, TypeScript, Vite, Tailwind CSS.
+
+### **Backend (API)**
+*   **AWS EC2 (Ubuntu 22.04):** Potencia de cómputo escalable en la nube de Amazon para procesar la lógica de Django y la integración con IA.
+*   **Tecnologías:** Django 4.2, Django REST Framework, PostgreSQL 15.
+
+### **Conectividad y Seguridad**
+*   **Cloudflare Tunnel:** Puente seguro (HTTPS) que conecta Vercel con AWS EC2, eliminando problemas de *Mixed Content* y protegiendo la comunicación sin abrir puertos públicos.
+*   **IA de Google Gemini 1.5 Flash:** Motor inteligente para la clasificación, síntesis y apoyo jurídico de las solicitudes.
+*   **Token Authentication:** Garantiza que la comunicación entre plataformas sea segura y persistente.
 
 ---
 

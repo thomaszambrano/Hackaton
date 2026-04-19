@@ -1,0 +1,35 @@
+- generic [ref=e4]:
+  - generic [ref=e5]:
+    - img [ref=e7]
+    - heading "Alcaldía de Medellín" [level=1] [ref=e11]
+    - paragraph [ref=e12]: Sistema Inteligente PQRSD
+  - generic [ref=e13]:
+    - generic [ref=e15]:
+      - img [ref=e16]
+      - heading "Acceso funcionarios" [level=2] [ref=e19]
+    - generic [ref=e20]:
+      - generic [ref=e21]:
+        - generic [ref=e22]: Usuario
+        - textbox "Ingresa tu usuario" [ref=e23]
+      - generic [ref=e24]:
+        - generic [ref=e25]: Contraseña
+        - textbox "••••••••" [ref=e26]
+      - button "Ingresar al sistema" [ref=e27]
+    - generic [ref=e29]:
+      - generic [ref=e30]:
+        - img [ref=e31]
+        - paragraph [ref=e33]: Demo — credenciales de prueba
+      - generic [ref=e34]:
+        - paragraph [ref=e35]:
+          - strong [ref=e36]: "Admin:"
+          - text: admin / admin1234
+        - paragraph [ref=e37]:
+          - strong [ref=e38]: "Enlace:"
+          - text: enlace1 / pqrsd2026
+        - paragraph [ref=e39]:
+          - strong [ref=e40]: "Jurídico:"
+          - text: juridico1 / pqrsd2026
+  - paragraph [ref=e41]:
+    - text: "Portal ciudadano:"
+    - link "Ir al inicio" [ref=e42] [cursor=pointer]:
+      - /url: /

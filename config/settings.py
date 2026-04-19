@@ -60,20 +60,39 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
+import socket
+
 _db_url = config('DATABASE_URL', default='')
 if _db_url:
     DATABASES = {'default': dj_database_url.parse(_db_url, conn_max_age=600)}
 else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': config('DB_NAME', default='pqrsddb'),
-            'USER': config('DB_USER', default='postgres'),
-            'PASSWORD': config('DB_PASSWORD', default='postgres'),
-            'HOST': config('DB_HOST', default='db'),
-            'PORT': config('DB_PORT', default='5432'),
+    # Verificamos si existe el servicio de docker llamado "db"
+    try:
+        if config('DB_HOST', default='db') == 'db':
+            socket.gethostbyname('db')
+        is_docker_db = True
+    except socket.error:
+        is_docker_db = False
+
+    if is_docker_db:
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.postgresql',
+                'NAME': config('DB_NAME', default='pqrsddb'),
+                'USER': config('DB_USER', default='postgres'),
+                'PASSWORD': config('DB_PASSWORD', default='postgres'),
+                'HOST': config('DB_HOST', default='db'),
+                'PORT': config('DB_PORT', default='5432'),
+            }
         }
-    }
+    else:
+        # Fallback de salvavidas a SQLite3 en caso de estar en Railway sin base de datos
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': BASE_DIR / 'db.sqlite3',
+            }
+        }
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},

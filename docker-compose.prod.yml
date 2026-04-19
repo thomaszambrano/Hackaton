@@ -4,23 +4,22 @@ services:
     environment:
       POSTGRES_DB: pqrsddb
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    # ports:  # uncomment only for local DB debugging — never expose in production
-    #   - "5434:5432"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
       timeout: 5s
       retries: 5
+    restart: always
 
   web:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    command: gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 2 --timeout 120
     volumes:
-      - .:/app
       - media_data:/app/media
+      - static_data:/app/staticfiles
     ports:
       - "8090:8000"
     env_file:
@@ -28,20 +27,9 @@ services:
     depends_on:
       db:
         condition: service_healthy
-
-  frontend:
-    build: ./frontend
-    volumes:
-      - ./frontend/src:/app/src
-      - ./frontend/public:/app/public
-      - ./frontend/vite.config.ts:/app/vite.config.ts:ro
-    ports:
-      - "5175:5173"
-    environment:
-      - VITE_API_TARGET=http://web:8000
-    depends_on:
-      - web
+    restart: always
 
 volumes:
   postgres_data:
   media_data:
+  static_data:

@@ -11,6 +11,7 @@ urlpatterns = [
     path('conocimiento/', include('apps.conocimiento.urls')),
     path('clasificacion/', include('apps.clasificacion.urls')),
     path('funcionarios/', include('apps.funcionarios.urls', namespace='funcionarios')),
+    path('respuestas/', include('apps.respuestas.urls', namespace='respuestas')),
     path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

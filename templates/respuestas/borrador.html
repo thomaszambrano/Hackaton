@@ -1,0 +1,243 @@
+{% extends 'base.html' %} {% block title %}Borrador de Respuesta — {{
+pqrsd.radicado }}{% endblock %} {% block content %}
+<div class="container">
+  <nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="{% url 'funcionarios:dashboard' %}">Dashboard</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a href="{% url 'funcionarios:detalle_pqrsd' pqrsd.pk %}"
+          >{{ pqrsd.radicado }}</a
+        >
+      </li>
+      <li class="breadcrumb-item active">Borrador de Respuesta</li>
+    </ol>
+  </nav>
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h3 class="fw-bold mb-1">
+        <i class="bi bi-robot me-2"></i>Agente de Respuestas
+      </h3>
+      <small class="text-muted"
+        >Borrador generado por {{ borrador.modelo_ia }} · {{
+        borrador.generado_en|date:"d/m/Y H:i" }}</small
+      >
+    </div>
+    <span
+      class="badge fs-6 {% if borrador.estado == 'enviado' %}bg-success{% elif borrador.estado == 'revisado' %}bg-primary{% else %}bg-warning text-dark{% endif %}"
+    >
+      {{ borrador.get_estado_display }}
+    </span>
+  </div>
+
+  {% if messages %} {% for msg in messages %}
+  <div class="alert alert-{{ msg.tags }} d-flex align-items-center">
+    <i class="bi bi-info-circle me-2"></i>{{ msg }}
+  </div>
+  {% endfor %} {% endif %}
+
+  <div class="alert alert-warning d-flex align-items-start mb-4">
+    <i class="bi bi-exclamation-triangle-fill me-2 fs-5 mt-1"></i>
+    <div>
+      <strong>Borrador generado por IA.</strong> Revise cuidadosamente el
+      contenido antes de aprobar. Esta herramienta asiste al funcionario — la
+      decisión final y la responsabilidad legal son suyas. El texto puede
+      contener errores factuales o jurídicos.
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Editor principal -->
+    <div class="col-lg-8">
+      <div class="card shadow-sm border-0 mb-4">
+        <div
+          class="card-header d-flex justify-content-between align-items-center"
+        >
+          <h6 class="mb-0">
+            <i class="bi bi-pencil me-2"></i>Texto de la Respuesta
+          </h6>
+          {% if borrador.estado != 'enviado' %}
+          <span class="badge bg-light text-dark border">Editable</span>
+          {% endif %}
+        </div>
+        <div class="card-body">
+          {% if borrador.estado == 'enviado' %}
+          <div
+            class="bg-light p-3 rounded"
+            style="white-space: pre-wrap; font-family: inherit"
+          >
+            {{ borrador.texto_final }}
+          </div>
+          {% else %}
+          <form
+            method="post"
+            action="{% url 'respuestas:editar_borrador' borrador.pk %}"
+            id="form-editar"
+          >
+            {% csrf_token %}
+            <textarea
+              name="texto_editado"
+              class="form-control"
+              rows="18"
+              style="font-family: inherit; resize: vertical"
+              placeholder="Edite el texto de la respuesta aquí..."
+            >
+{{ borrador.texto_editado|default:borrador.texto_borrador }}</textarea
+            >
+            <div class="d-flex gap-2 mt-3">
+              <button type="submit" class="btn btn-outline-primary">
+                <i class="bi bi-floppy me-1"></i>Guardar cambios
+              </button>
+              <button
+                type="button"
+                class="btn btn-link text-muted btn-sm"
+                onclick="document.getElementById('form-editar').querySelector('textarea').value = {{ borrador.texto_borrador|escapejs|default:'' |safe }}"
+              >
+                Restaurar original
+              </button>
+            </div>
+          </form>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Precedentes usados -->
+      {% if borrador.precedentes_usados.all %}
+      <div class="card shadow-sm border-0 mb-4">
+        <div class="card-header">
+          <h6 class="mb-0">
+            <i class="bi bi-archive me-2"></i>Precedentes utilizados
+          </h6>
+        </div>
+        <div class="card-body p-0">
+          {% for prec in borrador.precedentes_usados.all %}
+          <div class="p-3 {% if not forloop.last %}border-bottom{% endif %}">
+            <div class="d-flex justify-content-between">
+              <small class="fw-bold text-muted"
+                >{{ prec.dependencia.sigla }} — {{ prec.get_tipo_pqrsd_display
+                }}</small
+              >
+              <span class="badge bg-light text-dark border"
+                >usado {{ prec.usado_veces }}×</span
+              >
+            </div>
+            <p class="mb-1 small">{{ prec.pregunta_frecuente }}</p>
+            <p class="text-muted small mb-0">
+              {{ prec.respuesta_base|truncatewords:25 }}
+            </p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Panel lateral -->
+    <div class="col-lg-4">
+      <!-- Solicitud original -->
+      <div class="card shadow-sm border-0 mb-3">
+        <div class="card-header">
+          <h6 class="mb-0">
+            <i class="bi bi-file-text me-2"></i>Solicitud original
+          </h6>
+        </div>
+        <div class="card-body">
+          <small class="text-muted d-block mb-1">Radicado</small>
+          <code class="d-block mb-2">{{ pqrsd.radicado }}</code>
+          <small class="text-muted d-block mb-1">Tipo</small>
+          <strong class="d-block mb-2">{{ pqrsd.get_tipo_display }}</strong>
+          <small class="text-muted d-block mb-1">Asunto</small>
+          <p class="mb-2 small">{{ pqrsd.asunto }}</p>
+          {% if pqrsd.dependencia_asignada %}
+          <small class="text-muted d-block mb-1">Dependencia</small>
+          <strong class="small">{{ pqrsd.dependencia_asignada.sigla }}</strong>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Acciones -->
+      {% if borrador.estado != 'enviado' %}
+      <div class="card shadow-sm border-0 mb-3 border-success">
+        <div class="card-header bg-success bg-opacity-10">
+          <h6 class="mb-0 text-success">
+            <i class="bi bi-check-circle me-2"></i>Aprobar y marcar como
+            respondida
+          </h6>
+        </div>
+        <div class="card-body">
+          <p class="small text-muted mb-3">
+            Al aprobar, la PQRSD se marcará como <strong>respondida</strong> y
+            el borrador quedará registrado. El envío real al ciudadano debe
+            hacerse por los canales habituales.
+          </p>
+          <form
+            method="post"
+            action="{% url 'respuestas:aprobar_respuesta' borrador.pk %}"
+            onsubmit="
+              return confirm(
+                '¿Confirmar que revisó el borrador y aprueba marcarlo como respondido?',
+              );
+            "
+          >
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success w-100">
+              <i class="bi bi-send me-1"></i>Aprobar respuesta
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div class="card shadow-sm border-0 mb-3">
+        <div class="card-header">
+          <h6 class="mb-0">
+            <i class="bi bi-arrow-clockwise me-2"></i>Regenerar borrador
+          </h6>
+        </div>
+        <div class="card-body">
+          <p class="small text-muted mb-2">
+            Genera un nuevo borrador desde cero con Gemini.
+          </p>
+          <form
+            method="post"
+            action="{% url 'respuestas:regenerar_borrador' pqrsd.pk %}"
+            onsubmit="
+              return confirm(
+                '¿Generar un nuevo borrador? El actual se conservará en el historial.',
+              );
+            "
+          >
+            {% csrf_token %}
+            <button
+              type="submit"
+              class="btn btn-outline-secondary w-100 btn-sm"
+            >
+              <i class="bi bi-stars me-1"></i>Nuevo borrador con IA
+            </button>
+          </form>
+        </div>
+      </div>
+      {% else %}
+      <div class="alert alert-success">
+        <i class="bi bi-check-circle-fill me-2"></i>
+        Respuesta aprobada por
+        <strong
+          >{{
+          borrador.revisado_por.get_full_name|default:borrador.revisado_por.username
+          }}</strong
+        >
+        el {{ borrador.revisado_en|date:"d/m/Y H:i" }}.
+      </div>
+      {% endif %}
+
+      <a
+        href="{% url 'funcionarios:detalle_pqrsd' pqrsd.pk %}"
+        class="btn btn-outline-secondary w-100"
+      >
+        <i class="bi bi-arrow-left me-1"></i>Volver al detalle
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

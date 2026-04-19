@@ -29,21 +29,36 @@ services:
       db:
         condition: service_healthy
 
-  # --- Chatwoot (rama origin/woot): variables en .env.chatwoot (no mezclar con Django) ---
-  x-chatwoot-base: &chatwoot_base
+  # Chatwoot: imagen y .env.chatwoot repetidos en prepare / rails / sidekiq (evita servicios fantasma con anclas YAML).
+
+  chatwoot_db_prepare:
     image: chatwoot/chatwoot:v4.0.1-ce
     env_file:
       - .env.chatwoot
     volumes:
       - chatwoot_storage:/app/storage
-
-  chatwoot_rails:
-    <<: *chatwoot_base
     depends_on:
       chatwoot_postgres:
         condition: service_healthy
       chatwoot_redis:
         condition: service_healthy
+    environment:
+      NODE_ENV: production
+      RAILS_ENV: production
+      INSTALLATION_ENV: docker
+    entrypoint: docker/entrypoints/rails.sh
+    command: [ 'bundle', 'exec', 'rails', 'db:chatwoot_prepare' ]
+    restart: "no"
+
+  chatwoot_rails:
+    image: chatwoot/chatwoot:v4.0.1-ce
+    env_file:
+      - .env.chatwoot
+    volumes:
+      - chatwoot_storage:/app/storage
+    depends_on:
+      chatwoot_db_prepare:
+        condition: service_completed_successfully
     ports:
       - "3000:3000"
     environment:
@@ -55,12 +70,14 @@ services:
     restart: unless-stopped
 
   chatwoot_sidekiq:
-    <<: *chatwoot_base
+    image: chatwoot/chatwoot:v4.0.1-ce
+    env_file:
+      - .env.chatwoot
+    volumes:
+      - chatwoot_storage:/app/storage
     depends_on:
-      chatwoot_postgres:
-        condition: service_healthy
-      chatwoot_redis:
-        condition: service_healthy
+      chatwoot_db_prepare:
+        condition: service_completed_successfully
     environment:
       NODE_ENV: production
       RAILS_ENV: production

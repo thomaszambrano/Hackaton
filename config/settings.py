@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'apps.clasificacion',
     'apps.sintesis',
     'apps.funcionarios',
+    'apps.respuestas',
     'apps.api',
 ]
 

@@ -1,0 +1,34 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto+Slab:wght@400;700&family=Roboto:wght@400;500;700&family=Work+Sans:wght@400;500;600;700&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --color-brand-blue: #3366cc;
+  --color-brand-dark-blue: #004884;
+  --color-brand-light-blue: #e6effd;
+  --color-brand-orange: #fb8406;
+  --color-brand-cyan: #00aeef;
+  --color-brand-purple: #ae3e97;
+  --color-brand-burgundy: #952828;
+  --color-brand-teal: #14b8ce;
+  --color-brand-teal-light: #58c4cf;
+
+  --font-work: "Work Sans", sans-serif;
+  --font-montserrat: "Montserrat", sans-serif;
+  --font-roboto: "Roboto", sans-serif;
+  --font-slab: "Roboto Slab", serif;
+}
+
+body {
+  font-family: var(--font-work);
+  color: #333333;
+  background-color: #f9fafb;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-montserrat);
+}

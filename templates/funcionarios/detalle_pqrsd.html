@@ -126,6 +126,61 @@ block content %}
         </div>
       </div>
 
+      <!-- Agente de Respuestas -->
+      <div
+        class="card shadow-sm border-0 mb-3"
+        style="border-left: 5px solid #198754 !important"
+      >
+        <div
+          class="card-header d-flex justify-content-between align-items-center bg-success bg-opacity-10"
+        >
+          <h6 class="mb-0 text-success">
+            <i class="bi bi-robot me-2"></i>Agente de Respuestas (IA)
+          </h6>
+          {% with ultimo_borrador=pqrsd.borradores.first %} {% if
+          ultimo_borrador %}
+          <div class="d-flex gap-2 align-items-center">
+            <span
+              class="badge {% if ultimo_borrador.estado == 'enviado' %}bg-success{% elif ultimo_borrador.estado == 'revisado' %}bg-primary{% else %}bg-warning text-dark{% endif %}"
+            >
+              {{ ultimo_borrador.get_estado_display }}
+            </span>
+            <a
+              href="{% url 'respuestas:ver_borrador' ultimo_borrador.pk %}"
+              class="btn btn-sm btn-outline-success"
+            >
+              <i class="bi bi-eye me-1"></i>Ver borrador
+            </a>
+          </div>
+          {% else %}
+          <a
+            href="{% url 'respuestas:generar_borrador' pqrsd.pk %}"
+            class="btn btn-sm btn-success"
+          >
+            <i class="bi bi-stars me-1"></i>Generar respuesta con IA
+          </a>
+          {% endif %} {% endwith %}
+        </div>
+        <div class="card-body py-2">
+          {% with ultimo_borrador=pqrsd.borradores.first %} {% if
+          ultimo_borrador %}
+          <p class="mb-0 small text-muted">
+            Último borrador generado {{ ultimo_borrador.generado_en|date:"d/m/Y
+            H:i" }} por {{ ultimo_borrador.modelo_ia }}. {% if
+            ultimo_borrador.revisado_por %} Revisado por {{
+            ultimo_borrador.revisado_por.get_full_name|default:ultimo_borrador.revisado_por.username
+            }}. {% endif %}
+          </p>
+          {% else %}
+          <p class="mb-0 small text-muted">
+            Gemini redactará un borrador de respuesta oficial usando los
+            precedentes de la dependencia y la síntesis estructurada. El
+            funcionario revisa y aprueba antes de enviar.
+          </p>
+          {% endif %} {% endwith %}
+        </div>
+      </div>
+
       <!-- Síntesis -->
       <div class="card shadow-sm border-0 mb-3">
         <div

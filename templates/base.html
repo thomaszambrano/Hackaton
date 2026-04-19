@@ -14,22 +14,25 @@
     />
     <style>
       :root {
-        --medellin-green: #00a859;
-        --medellin-dark: #1a3a2a;
-        --bs-success: #00a859;
-        --bs-success-rgb: 0, 168, 89;
-        --bs-btn-bg: #00a859;
+        --color-1: #06E3C6;
+        --color-2: #0693E3;
+        --color-3: #0623E3;
+        --bs-success: #0693E3;
+        --bs-success-rgb: 6, 147, 227;
+        --bs-btn-bg: #0693E3;
+        --bs-primary: #0693E3;
+        --bs-primary-rgb: 6, 147, 227;
       }
       body.dashboard {
-        background-color: #0f1e17 !important;
-        color: #e8f0eb !important;
+        background-color: #05101f !important;
+        color: #e0eeff !important;
       }
       .navbar-brand {
         font-weight: 700;
         letter-spacing: -0.5px;
       }
       .navbar {
-        background: var(--medellin-dark) !important;
+        background: linear-gradient(135deg, #0623E3, #0693E3) !important;
       }
       .badge-alerta {
         animation: pulse 2s infinite;
@@ -44,7 +47,7 @@
         }
       }
       .card-sla-ok {
-        border-left: 4px solid var(--medellin-green);
+        border-left: 4px solid var(--color-2);
       }
       .card-sla-alerta {
         border-left: 4px solid #ffc107;

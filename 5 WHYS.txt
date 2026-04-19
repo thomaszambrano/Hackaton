@@ -1,0 +1,43 @@
+1. USUARIO PRINCIPAL
+
+Problema: El ciudadano se siente frustrado porque no recibe respuesta oportuna a su PQRSd.
+
+¿Por qué 1?
+Porque la respuesta a su solicitud se demora más de lo esperado.
+
+¿Por qué 2?
+Porque la solicitud no fue gestionada dentro de los tiempos establecidos.
+
+¿Por qué 3?
+Porque hay retrasos en la revisión y asignación de las PQRSd dentro de la entidad.
+
+¿Por qué 4?
+Porque el sistema o proceso de gestión no prioriza adecuadamente las solicitudes o no notifica eficientemente a los funcionarios.
+
+¿Por qué 5?
+Porque no existe una automatización efectiva ni un flujo de trabajo optimizado que garantice trazabilidad, priorización y seguimiento en tiempo real.
+
+Causa raíz:
+Falta de un sistema eficiente de gestión y seguimiento de PQRSd que asegure tiempos de respuesta y transparencia.
+
+2. FUNCIONARIO
+
+Problema: El funcionario se retrasa en responder las PQRSd.
+
+¿Por qué 1?
+Porque tiene muchas solicitudes acumuladas.
+
+¿Por qué 2?
+Porque el volumen de PQRSd supera su capacidad de gestión.
+
+¿Por qué 3?
+Porque el proceso de clasificación y asignación no es eficiente.
+
+¿Por qué 4?
+Porque no hay herramientas automatizadas que ayuden a priorizar, filtrar o distribuir las solicitudes.
+
+¿Por qué 5?
+Porque el sistema actual no está diseñado con enfoque en eficiencia operativa ni en apoyo a la toma de decisiones.
+
+Causa raíz:
+Falta de herramientas tecnológicas y procesos optimizados que permitan gestionar grandes volúmenes de PQRSd de forma eficiente.

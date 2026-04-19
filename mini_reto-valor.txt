@@ -1,3 +1,0 @@
-1. Clasificamos y priorizamos automáticamente cada PQRSD según su tiempo legal de respuesta, para que llegue más rápido a la dependencia correcta.
-2. Detectamos lenguaje ofensivo, casos repetidos y patrones por comuna o corregimiento, para mejorar la atención y anticipar problemáticas de ciudad.
-3. Entregamos al funcionario cada caso ya analizado, sintetizado y con pre-radicado, reduciendo tiempos operativos sin reemplazar la validación humana.

@@ -18,122 +18,34 @@ El sistema está diseñado bajo un enfoque de **escalabilidad operativa**, permi
 
 ---
 
-## 2. Enfoque de Escalabilidad
+## 2. Métricas de Escalabilidad
 
-La escalabilidad del sistema se sostiene en tres dimensiones fundamentales:
+A continuación se presentan las tres métricas clave que permiten evaluar y sostener la escalabilidad del sistema:
 
-- Velocidad de respuesta  
-- Nivel de automatización  
-- Calidad de las respuestas  
-
-Estas dimensiones se miden mediante tres métricas clave: **TRA, TAE e ICR**, las cuales permiten evaluar el desempeño del sistema ante el crecimiento en volumen de PQRS.
-
----
-
-## 3. Métrica 1: Tiempo de Resolución Automatizada (TRA)
-
-### Definición  
-Tiempo promedio desde el ingreso de una PQRS hasta la generación y validación de la respuesta.
-
-### Fórmula  
-
-TRA = promedio(timestamp_respuesta - timestamp_ingreso)
-
-### Objetivo  
-
-Reducir el tiempo de respuesta manteniendo estabilidad del sistema ante incrementos en la demanda.
-
-### Cómo sostiene la escalabilidad  
-
-- Permite identificar cuellos de botella en procesamiento  
-- Mide la capacidad del sistema para responder en tiempo real  
-- Garantiza eficiencia operativa en escenarios de alto volumen  
-
-### Responsables  
-
-- Data/BI: monitoreo continuo y generación de alertas  
-- Backend: optimización de latencia, colas y concurrencia  
-- IA (ADK): eficiencia en generación de respuestas  
-- Revisor: validación final en casos necesarios  
+| Métrica | Definición | Fórmula | Objetivo | Cómo aporta a la escalabilidad | Responsables |
+|--------|------------|---------|----------|--------------------------------|--------------|
+| **TRA (Tiempo de Resolución Automatizada)** | Tiempo promedio desde el ingreso de la PQRS hasta la generación y validación de la respuesta | `promedio(timestamp_respuesta - timestamp_ingreso)` | Reducir tiempos de respuesta manteniendo estabilidad | Identifica cuellos de botella y garantiza eficiencia operativa en alto volumen | Data/BI (monitoreo), Backend (latencia y colas), IA (optimización), Revisor (validación) |
+| **TAE (Tasa de Automatización Efectiva)** | Porcentaje de PQRS resueltas sin intervención humana significativa | `(PQRS automatizadas / total PQRS) * 100` | Aumentar automatización sin aumentar recursos humanos | Permite escalar la capacidad del sistema sin depender de más personal | IA (clasificación y generación), Secretarías (reglas), Product Owner (umbrales), QA (control de calidad) |
+| **ICR (Índice de Calidad de Respuesta)** | Métrica compuesta de calidad, cumplimiento y satisfacción | `(0.4 * precisión) + (0.3 * cumplimiento) + (0.3 * satisfacción)` | Garantizar respuestas confiables y alineadas a normativa | Evita degradación de calidad al escalar y reduce reprocesos | Jurídico (lineamientos), QA (auditoría), IA (mejora), Atención (feedback) |
 
 ---
 
-## 4. Métrica 2: Tasa de Automatización Efectiva (TAE)
+## 3. Operacionalización de las Métricas
 
-### Definición  
-
-Porcentaje de PQRS resueltas sin intervención humana significativa.
-
-### Fórmula  
-
-TAE = (PQRS automatizadas / total PQRS) * 100
-
-### Objetivo  
-
-Incrementar la automatización para soportar crecimiento sin aumentar carga operativa humana.
-
-### Cómo sostiene la escalabilidad  
-
-- Reduce dependencia de revisores humanos  
-- Permite manejar mayores volúmenes de solicitudes  
-- Disminuye costos operativos  
-
-### Responsables  
-
-- IA (ADK + RAG): clasificación y generación automática  
-- Usuario funcional (Secretarías): definición de reglas y excepciones  
-- Product Owner: definición de umbrales de automatización  
-- QA: validación de calidad en respuestas automatizadas  
-
----
-
-## 5. Métrica 3: Índice de Calidad de Respuesta (ICR)
-
-### Definición  
-
-Métrica compuesta que evalúa la calidad de las respuestas generadas, considerando precisión, cumplimiento normativo y satisfacción del usuario.
-
-### Fórmula (ejemplo)  
-
-ICR = (0.4 * precisión) + (0.3 * cumplimiento) + (0.3 * satisfacción)
-
-### Objetivo  
-
-Asegurar que la automatización no comprometa la calidad ni el cumplimiento institucional.
-
-### Cómo sostiene la escalabilidad  
-
-- Evita degradación de calidad al aumentar automatización  
-- Garantiza confianza en el sistema  
-- Reduce reprocesos y retrabajo  
-
-### Responsables  
-
-- Jurídico: lineamientos normativos  
-- QA: auditoría de calidad  
-- IA: mejora continua de modelos  
-- Atención al ciudadano: recolección de feedback  
-
----
-
-## 6. Operacionalización de las Métricas
-
-Para garantizar que las métricas realmente soporten la escalabilidad, se definen los siguientes mecanismos:
+Para asegurar que estas métricas sostengan la escalabilidad del sistema, se implementan:
 
 - Monitoreo en tiempo real mediante dashboards  
-- Definición de umbrales (ej: TRA máximo permitido, TAE mínimo esperado)  
+- Definición de umbrales (ej: TRA máximo, TAE mínimo esperado)  
 - Alertas automáticas ante desviaciones  
 - Ciclos de mejora continua basados en datos  
 
 ---
 
-## 7. Relación entre Métricas
+## 4. Relación entre Métricas
 
-Cada métrica cumple un rol específico dentro del sistema:
-
-- TRA → mide eficiencia (velocidad)  
-- TAE → mide capacidad de escalamiento  
-- ICR → mide calidad y confiabilidad  
+- TRA → eficiencia (velocidad)  
+- TAE → escalabilidad  
+- ICR → calidad  
 
 ### Balance estratégico
 
@@ -141,49 +53,36 @@ Cada métrica cumple un rol específico dentro del sistema:
 - Alta calidad sin automatización → sistema no escalable  
 - Alta velocidad sin control → incremento de errores  
 
-El sistema debe mantener equilibrio entre estas tres dimensiones.
-
 ---
 
-## 8. KPI Derivado
+## 5. KPI Derivado
 
 ### Costo por PQRS
 
 Costo por PQRS = costo total operativo / número de PQRS gestionadas  
 
-### Interpretación  
-
-- Disminuye cuando aumenta la automatización (TAE)  
-- Aumenta cuando hay mayor intervención humana  
-- Se optimiza manteniendo alto ICR y bajo TRA  
-
 ---
 
-## 9. Condición de Escalabilidad del Sistema
+## 6. Condición de Escalabilidad
 
 El sistema se considera escalable cuando:
 
-- El TRA disminuye o se mantiene estable ante mayor volumen  
-- El TAE aumenta progresivamente  
-- El ICR se mantiene alto o mejora  
-
-Esto indica que el sistema puede crecer en demanda sin afectar calidad ni eficiencia.
+- Disminuye el TRA  
+- Aumenta el TAE  
+- Se mantiene o mejora el ICR  
 
 ---
 
-## 10. Arquitectura IA (ADK + RAG)
+## 7. Arquitectura IA (ADK + RAG)
 
 - Agentes gestionados mediante ADK  
-- Uso de RAG para consulta de:
-  - Normativa  
-  - Históricos  
-  - Bases documentales  
+- RAG para consulta de normativa, históricos y bases documentales  
 - Orquestación de agentes según tipo de PQRS  
-- Trazabilidad completa (logs, prompts, decisiones)  
+- Trazabilidad de decisiones (logs y prompts)  
 
 ---
 
-## 11. Roles de Usuario
+## 8. Roles de Usuario
 
 ### Administrador del Sistema
 - Configura agentes (ADK)  
@@ -205,4 +104,10 @@ Esto indica que el sistema puede crecer en demanda sin afectar calidad ni eficie
 
 ### Product Owner
 - Define métricas objetivo  
-- Prioriza mejoras
+- Prioriza mejoras  
+
+---
+
+## 9. Conclusión
+
+Las métricas TRA, TAE e ICR constituyen el núcleo del modelo de escalabilidad, permitiendo que el sistema crezca en volumen sin comprometer la eficiencia, la automatización ni la calidad del servicio.
